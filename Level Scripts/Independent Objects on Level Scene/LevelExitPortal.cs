@@ -21,10 +21,10 @@ public class LevelExitPortal : MonoBehaviour
     private void Start()
     {
         _currentExitPortalPosition = _exitPortalPositions[levelSceneBuilder.CurrentLevel - 1];
-        StartCoroutine(loop());
+        StartCoroutine(Loop());
     }
 
-    private IEnumerator loop()
+    private IEnumerator Loop()
     {
         _currentRotationAxisZ += _stepRotation;
 
@@ -32,7 +32,7 @@ public class LevelExitPortal : MonoBehaviour
             _currentRotationAxisZ = 0;
 
         yield return new WaitForSeconds(_loopDelay);
-        StartCoroutine(loop());
+        StartCoroutine(Loop());
     }
 
     private void FixedUpdate()

@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class PauseMenuForDialogueButtonsFunctions : PauseMenuButtonsFunctions
 {
-    public override void exitGame()
+    public override void ExitFromGame()
     {
-        _ClickSound.Play();
-        pauseMenu.turnPause();
-        transitionToNextScene.exitFromGame();
+        _clickSound.Play();
+        pauseMenu.TurnPause();
+        transitionToNextScene.ExitFromGame();
     }
 
-    public override void backButton()
+    public override void BackButton()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _menu.SetActive(true);
         _exitMenu1.SetActive(false);
         _exitMenu2.SetActive(false);

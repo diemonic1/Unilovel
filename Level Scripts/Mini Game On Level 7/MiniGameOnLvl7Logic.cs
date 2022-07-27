@@ -5,11 +5,6 @@ namespace MiniGameOnLvl7
 {
     public class MiniGameOnLvl7Logic : MonoBehaviour
     {
-        public bool IsWin { get; private set; }
-        public bool IsGameRunning { get; private set; }
-        public int CountBeforeWin { get; private set; } = 15;
-        public float TimeBeforeDeath { get; private set; } = 1;
-
         [SerializeField] private GameObject _triggersGroup;
 
         private bool _nextTriggerStartGame, _firstActivateAfterDeath = true;
@@ -19,56 +14,72 @@ namespace MiniGameOnLvl7
         [SerializeField] private TaskCreator taskCreator;
         [SerializeField] private VisualLvl7 visualLvl7;
 
-        public void triggerActivate(int numberActivated)
+        public bool IsWin { get; private set; }
+
+        public bool IsGameRunning { get; private set; }
+
+        public int CountBeforeWin { get; private set; } = 15;
+
+        public float TimeBeforeDeath { get; private set; } = 1;
+
+        public void TriggerActivate(int numberActivated)
         {
             if (!IsWin)
             {
-                checkNumberOfActivated(numberActivated);
+                CheckNumberOfActivated(numberActivated);
             }
         }
 
-        private void checkNumberOfActivated(int numberActivated)
+        private void CheckNumberOfActivated(int numberActivated)
         {
-            if (!_nextTriggerStartGame) // after death does not react to the first interaction with the trigger, which occurs after the character falls on respawn
+            // after death does not react to the first interaction with the trigger, which occurs after the character falls on respawn
+            if (!_nextTriggerStartGame)
+            {
                 _nextTriggerStartGame = true;
+            }
             else if (((!taskCreator.NotMode && numberActivated == taskCreator.CurrentTarget) || (taskCreator.NotMode && numberActivated != taskCreator.CurrentTarget) || taskCreator.AnyColorMode) && !_firstActivateAfterDeath)
             {
-                taskSolved();
-                if (!thisLastTask()) taskCreator.createNewTask(numberActivated);
+                TaskSolved();
+                if (!ThisLastTask()) taskCreator.CreateNewTask(numberActivated);
             }
             else if (_firstActivateAfterDeath)
             {
                 _firstActivateAfterDeath = false;
                 IsGameRunning = true;
-                startDeathTimer();
-                taskCreator.createNewTask(numberActivated);
+                StartDeathTimer();
+                taskCreator.CreateNewTask(numberActivated);
             }
             else
-                taskFailed();
+            {
+                TaskFailed();
+            }
         }
 
-        private void startDeathTimer() 
+        private void StartDeathTimer()
         {
-            StartCoroutine(timerOfDeath());
+            StartCoroutine(TimerOfDeath());
         }
 
-        private bool thisLastTask() 
+        private bool ThisLastTask()
         {
             if (CountBeforeWin <= 0)
             {
-                win();
+                Win();
                 return true;
             }
-            else return false;
+            else
+            {
+                return false;
+            }
         }
 
-        private void taskSolved()
+        private void TaskSolved()
         {
             CountBeforeWin -= 1;
             TimeBeforeDeath = 1;
         }
 
-        private void taskFailed()
+        private void TaskFailed()
         {
             _triggersGroup.SetActive(false);
 
@@ -76,33 +87,33 @@ namespace MiniGameOnLvl7
             _nextTriggerStartGame = false;
             _firstActivateAfterDeath = true;
 
-            visualLvl7.writeOnAnyColor();
+            visualLvl7.WriteOnAnyColor();
 
             CountBeforeWin = 15;
             TimeBeforeDeath = 1;
 
-            playerSpawnAndRespawn.respawnPlayer();
+            playerSpawnAndRespawn.RespawnPlayer();
 
-            StartCoroutine(triggersSetActiveDelay());
+            StartCoroutine(TriggersSetActiveDelay());
         }
 
-        private IEnumerator triggersSetActiveDelay()
+        private IEnumerator TriggersSetActiveDelay()
         {
             yield return new WaitForSeconds(1f);
 
             _triggersGroup.SetActive(true);
         }
 
-        private void win()
+        private void Win()
         {
-            visualLvl7.winVisulisation();
+            visualLvl7.WinVisulisation();
 
             IsGameRunning = false;
             _nextTriggerStartGame = false;
             IsWin = true;
         }
 
-        private IEnumerator timerOfDeath()
+        private IEnumerator TimerOfDeath()
         {
             if (IsGameRunning)
             {
@@ -110,10 +121,12 @@ namespace MiniGameOnLvl7
                 {
                     TimeBeforeDeath -= 0.0021f;
                     yield return new WaitForSeconds(0.01f);
-                    StartCoroutine(timerOfDeath());
+                    StartCoroutine(TimerOfDeath());
                 }
-                else 
-                    taskFailed();
+                else
+                {
+                    TaskFailed();
+                }
             }
         }
     }

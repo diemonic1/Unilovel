@@ -3,15 +3,16 @@ using UnityEngine;
 
 public class DialogueSceneBuilder : MonoBehaviour
 {
-    [SerializeField] private debug _testDialogue;
-    
+    [SerializeField] private Debug _testDialogue;
+
     [SerializeField] private GameObject[] _backgrounds;
     [SerializeField] private GameObject[] _musicPlaylist;
 
     private int _currentDialogue = -10;
-    private enum debug
+
+    private enum Debug
     {
-        none = 0,
+        None = 0,
         Alice = 1,
         Anasteisha = 2,
         Citrinnefer = 3,
@@ -22,12 +23,12 @@ public class DialogueSceneBuilder : MonoBehaviour
         Anemone = 8,
     }
 
-    public int getCurrentDialogueNumber() 
+    public int GetCurrentDialogueNumber()
     {
-        if (_testDialogue > 0) 
-            PlayerPrefs.SetInt("dial", ((int)(_testDialogue) - 1));
+        if (_testDialogue > 0)
+            PlayerPrefs.SetInt("dial", (int)_testDialogue - 1);
 
-        if (_currentDialogue == -10) 
+        if (_currentDialogue == -10)
             _currentDialogue = PlayerPrefs.GetInt("dial");
 
         return _currentDialogue;
@@ -35,7 +36,7 @@ public class DialogueSceneBuilder : MonoBehaviour
 
     private void Start()
     {
-        _currentDialogue = getCurrentDialogueNumber();
+        _currentDialogue = GetCurrentDialogueNumber();
 
         _backgrounds[_currentDialogue].SetActive(true);
         _musicPlaylist[_currentDialogue].SetActive(true);
@@ -46,15 +47,15 @@ public class DialogueSceneBuilder : MonoBehaviour
     private IEnumerator StartDialogueDelay()
     {
         yield return new WaitForSeconds(0.5f);
-        Screen.lockCursor = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         StartDialogue();
     }
 
-    private void StartDialogue() 
+    private void StartDialogue()
     {
         // It uses a ready-made asset for line-by-line output of dialog text.
         GetComponent<dialogueOutput>().startOutput(_currentDialogue);
     }
 }
-

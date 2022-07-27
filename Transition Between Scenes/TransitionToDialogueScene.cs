@@ -7,7 +7,7 @@ public class TransitionToDialogueScene : TransitionToNextScene
     {
         IsTransitionNow = true;
         yield return new WaitForSeconds(0.5f);
-        outBlackFade();
+        OutBlackFade();
         yield return new WaitForSeconds(1.8f);
         IsTransitionNow = false;
     }

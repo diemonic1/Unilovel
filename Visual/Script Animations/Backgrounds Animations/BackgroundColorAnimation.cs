@@ -20,17 +20,17 @@ public class BackgroundColorAnimation : MonoBehaviour
         _randomStepRed = -3;
         _randomStepGreen = -2;
         _randomStepBlue = -4;
-        StartCoroutine(loop());
+        StartCoroutine(Loop());
     }
 
-    private IEnumerator loop()
+    private IEnumerator Loop()
     {
         _randomStepRed = -Mathf.Sign(_randomStepRed) * Random.Range(8, 17);
         _randomStepGreen = -Mathf.Sign(_randomStepGreen) * Random.Range(8, 17);
         _randomStepBlue = -Mathf.Sign(_randomStepBlue) * Random.Range(8, 17);
 
         yield return new WaitForSeconds(Random.Range(9, 15));
-        StartCoroutine(loop());
+        StartCoroutine(Loop());
     }
 
     private void FixedUpdate()
@@ -42,6 +42,6 @@ public class BackgroundColorAnimation : MonoBehaviour
         _mainClampBlue += _randomStepBlue;
         _mainClampBlue = Mathf.Clamp(_mainClampBlue, 0, 10000);
 
-        _camera.backgroundColor = new Color(_minValueRed + _mainClampRed / _divisor, _minValueGreen + _mainClampGreen / _divisor, _minValueBlue + _mainClampBlue / _divisor);
+        _camera.backgroundColor = new Color(_minValueRed + (_mainClampRed / _divisor), _minValueGreen + (_mainClampGreen / _divisor), _minValueBlue + (_mainClampBlue / _divisor));
     }
 }

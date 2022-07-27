@@ -11,12 +11,12 @@ public class RotateCamera : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButton("Fire2") && !pauseMenu.isPause)
+        if (Input.GetButton("Fire2") && !pauseMenu.IsPause)
         {
             _currentRotationAxisX -= Input.GetAxis("Mouse Y") * _sensitivityOfRotation;
             _currentRotationAxisX = Mathf.Clamp(_currentRotationAxisX, -_verticalAmplitude, _verticalAmplitude);
 
-            _currentRotationAxisY = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * _sensitivityOfRotation;
+            _currentRotationAxisY = transform.localEulerAngles.y + (Input.GetAxis("Mouse X") * _sensitivityOfRotation);
 
             if (_currentRotationAxisY > _horizontalAmplitude && _currentRotationAxisY < 180)
                 _currentRotationAxisY = _horizontalAmplitude;

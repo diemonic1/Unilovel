@@ -2,7 +2,7 @@
 
 public class AnimationEventDestroyThisObject : MonoBehaviour
 {
-    public void animationEvent_destroyObject() 
+    public void AnimationEvent_destroyObject()
     {
         Destroy(gameObject);
     }

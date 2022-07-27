@@ -16,26 +16,54 @@ public class PlayerSpawnAndRespawn : MonoBehaviour
     [SerializeField] private Transform[] _playerSpawnPointsOnLevel6;
 
     private bool _isDeath = false;
-    private string _workTarget = "";
+    private string _workTarget = string.Empty;
 
     [Header("Links to instances")]
     [SerializeField] private LevelSceneBuilder levelSceneBuilder;
     [SerializeField] private TransitionToNextScene transitionToNextScene;
     [SerializeField] private KillingObjectHereChecker[] killingObjectHereCheckers;
 
-    public void respawnPlayer() 
+    public void RespawnPlayer()
     {
         _workTarget = "respawn";
-        playDespawnAnimation();
+        PlayDespawnAnimation();
     }
 
-    public void finishLevel()
+    public void FinishLevel()
     {
         _workTarget = "TransitionOnNextScene";
-        playDespawnAnimation();
+        PlayDespawnAnimation();
     }
 
-    private void playDespawnAnimation() 
+    public void EndOfDespawnAnimation()
+    {
+        switch (_workTarget)
+        {
+            case "respawn":
+                SpawnPlayer();
+                break;
+            case "TransitionOnNextScene":
+                transitionToNextScene.TurnOnDialogue();
+                break;
+        }
+    }
+
+    public void SpawnPlayer()
+    {
+        _playerTransform.localScale = new Vector3(0, 0, 0);
+
+        _playerTransform.position = GetSpawnPoint();
+
+        _portalSpawn.transform.position = _playerTransform.position;
+
+        _portalSpawnAnimator.Play("openPortal");
+        _playerAnimator.Play("increaseHero");
+
+        _playerRigidbody.isKinematic = false;
+        _isDeath = false;
+    }
+
+    private void PlayDespawnAnimation()
     {
         if (_isDeath == false)
         {
@@ -49,51 +77,22 @@ public class PlayerSpawnAndRespawn : MonoBehaviour
         }
     }
 
-    public void endOfDespawnAnimation() 
-    {
-        switch (_workTarget)
-        {
-            case "respawn":
-                spawnPlayer();
-                break;
-            case "TransitionOnNextScene":
-                transitionToNextScene.turnOnDialogue();
-                break;
-        }
-    }
-
-    public void spawnPlayer()
-    {
-        _playerTransform.localScale = new Vector3(0, 0, 0);
-
-        _playerTransform.position = getSpawnPoint();
-
-        _portalSpawn.transform.position = _playerTransform.position;
-
-        _portalSpawnAnimator.Play("openPortal");
-        _playerAnimator.Play("increaseHero");
-
-        _playerRigidbody.isKinematic = false;
-        _isDeath = false;
-    }
-
-    private Vector3 getSpawnPoint() 
+    private Vector3 GetSpawnPoint()
     {
         if (levelSceneBuilder.CurrentLevel == 3)
         {
             for (int i = 0; i < 4; i++)
             {
                 if (killingObjectHereCheckers[i].IsKillingObjectHere == false)
-                {
                     return _playerSpawnPointsOnLevel3[i].position;
-                    break;
-                }
-
-                return _playerSpawnPointsOnLevel3[0].position;
             }
+
+            return _playerSpawnPointsOnLevel3[0].position;
         }
         else if (levelSceneBuilder.CurrentLevel == 6)
+        {
             return _playerSpawnPointsOnLevel6[PortalCounter].position;
+        }
 
         return _playerSpawnPoints[levelSceneBuilder.CurrentLevel - 1].position;
     }

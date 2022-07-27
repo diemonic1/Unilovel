@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class killingObject : MonoBehaviour
+public class KillingObject : MonoBehaviour
 {
     private void OnTriggerEnter(Collider touchedObject)
     {
-        if (touchedObject.tag == "Player")
-            touchedObject.GetComponent<PlayerSpawnAndRespawn>().respawnPlayer();
+        if (touchedObject.CompareTag("Player"))
+            touchedObject.GetComponent<PlayerSpawnAndRespawn>().RespawnPlayer();
     }
 }

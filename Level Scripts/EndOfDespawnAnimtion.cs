@@ -5,8 +5,8 @@ public class EndOfDespawnAnimtion : MonoBehaviour
     [Header("Links to instances")]
     [SerializeField] private PlayerSpawnAndRespawn playerSpawnAndRespawn;
 
-    public void animationEvent_endOfDespawnAnimation()
+    public void AnimationEvent_endOfDespawnAnimation()
     {
-        playerSpawnAndRespawn.endOfDespawnAnimation();
+        playerSpawnAndRespawn.EndOfDespawnAnimation();
     }
 }

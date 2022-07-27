@@ -2,7 +2,7 @@
 
 public class RotateObjectAndLockOnCamera : MonoBehaviour
 {
-    private float _zRotationRatio = -0.6f;
+    private readonly float _zRotationRatio = -0.6f;
 
     private GameObject _camera;
 

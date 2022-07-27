@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MiniGameOnLvl7
 {
@@ -12,8 +11,8 @@ namespace MiniGameOnLvl7
 
         private void OnTriggerEnter(Collider touchedObject)
         {
-            if (touchedObject.gameObject.tag == "Player")
-                miniGameOnLvl7Logic.triggerActivate(_number);
+            if (touchedObject.gameObject.CompareTag("Player"))
+                miniGameOnLvl7Logic.TriggerActivate(_number);
         }
     }
 }

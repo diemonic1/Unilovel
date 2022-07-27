@@ -8,17 +8,17 @@ public class PauseMenuForLevelButtonsFunctions : PauseMenuButtonsFunctions
     [Header("Links to instances")]
     [SerializeField] private PlayerSpawnAndRespawn playerSpawnAndRespawn;
 
-    public override void exitGame()
+    public override void ExitFromGame()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _helpWindow.SetActive(false);
-        pauseMenu.turnPause();
-        transitionToNextScene.exitFromGame();
+        pauseMenu.TurnPause();
+        transitionToNextScene.ExitFromGame();
     }
 
-    public override void backButton()
+    public override void BackButton()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _menu.SetActive(true);
         _exitMenu1.SetActive(false);
         _exitMenu2.SetActive(false);
@@ -28,40 +28,42 @@ public class PauseMenuForLevelButtonsFunctions : PauseMenuButtonsFunctions
         _skipMenu2.SetActive(false);
     }
 
-    public void toggleHelpWindowVisibility()
+    public void ToggleHelpWindowVisibility()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _helpWindow.SetActive(!_helpWindow.activeSelf);
     }
 
-    public void openReloadLevelMenu()
+    public void OpenReloadLevelMenu()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _menu.SetActive(false);
         _reloadMenu.SetActive(true);
     }
 
-    public void reloadLevel()
+    public void ReloadLevel()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _helpWindow.SetActive(false);
-        pauseMenu.turnPause();
-        transitionToNextScene.restartLevel();
+        pauseMenu.TurnPause();
+        transitionToNextScene.RestartLevel();
     }
 
-    public void skipLevelMenu()
+    public void OpenSkipLevelMenu()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _menu.SetActive(false);
         _skipMenu1.SetActive(true);
     }
 
-    public void skipLevelMenu2()
+    public void OpenSkipLevelMenu2()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
 
         if (PlayerPrefs.GetInt("lvl") != 1)
-            skipLevel();
+        {
+            SkipLevel();
+        }
         else
         {
             _skipMenu1.SetActive(false);
@@ -69,11 +71,11 @@ public class PauseMenuForLevelButtonsFunctions : PauseMenuButtonsFunctions
         }
     }
 
-    public void skipLevel()
+    public void SkipLevel()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _helpWindow.SetActive(false);
-        pauseMenu.turnPause();
-        playerSpawnAndRespawn.finishLevel();
+        pauseMenu.TurnPause();
+        playerSpawnAndRespawn.FinishLevel();
     }
 }

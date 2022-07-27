@@ -3,22 +3,7 @@ using UnityEngine;
 
 public class LevelSceneBuilder : MonoBehaviour
 {
-    public debug TestLevel;
-
-    public enum debug
-    {
-        none = 0,
-        l1_7floors = 1,
-        l2_NoWallsManyObjects = 2,
-        l3_heroGOsAndWall = 3,
-        l4_gravity = 4,
-        l5_aqwarium = 5,
-        l6_changeWalls = 6,
-        l7_notNot = 7,
-        l8_cubeWithWalls = 8,
-    }
-
-    public int CurrentLevel { get; private set; }
+    [SerializeField] private Debug _testLevel;
 
     [SerializeField] private GameObject[] _levels;
     [SerializeField] private GameObject[] _musicPlaylist;
@@ -29,17 +14,39 @@ public class LevelSceneBuilder : MonoBehaviour
     [SerializeField] private PauseMenu pauseMenu;
     [SerializeField] private PlayerSpawnAndRespawn playerSpawnAndRespawn;
 
+    private enum Debug
+    {
+        None = 0,
+        L1_7floors = 1,
+        L2_NoWallsManyObjects = 2,
+        L3_heroGOsAndWall = 3,
+        L4_gravity = 4,
+        L5_aqwarium = 5,
+        L6_changeWalls = 6,
+        L7_notNot = 7,
+        L8_cubeWithWalls = 8,
+    }
+
+    public int CurrentLevel { get; private set; }
+
+    public void SetTestLevel(int numberOfLevel)
+    {
+        _testLevel = (Debug)numberOfLevel;
+        CurrentLevel = numberOfLevel;
+    }
+
     private void Awake()
     {
         CurrentLevel = PlayerPrefs.GetInt("lvl");
 
-        if (TestLevel != 0)
-            CurrentLevel = (int)TestLevel;
+        if (_testLevel != 0)
+            CurrentLevel = (int)_testLevel;
     }
 
-    private void Start() 
+    private void Start()
     {
-        Screen.lockCursor = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         _levels[CurrentLevel - 1].SetActive(true);
         _musicPlaylist[CurrentLevel - 1].SetActive(true);
@@ -53,24 +60,18 @@ public class LevelSceneBuilder : MonoBehaviour
         if (CurrentLevel == 7)
             _level7UI.SetActive(true);
 
-        StartCoroutine(spawnPlayerDelay());
+        StartCoroutine(SpawnPlayerDelay());
     }
 
-    public void setTestLevel(int numberOfLevel)
-    {
-        TestLevel = (debug)numberOfLevel;
-        CurrentLevel = numberOfLevel;
-    }
-
-    private IEnumerator spawnPlayerDelay()
+    private IEnumerator SpawnPlayerDelay()
     {
         yield return new WaitForSeconds(2.3f);
 
-        playerSpawnAndRespawn.spawnPlayer();
+        playerSpawnAndRespawn.SpawnPlayer();
 
         yield return new WaitForSeconds(1f);
 
         if (CurrentLevel == 1)
-            pauseMenu.showHelpWindow();
+            pauseMenu.ShowHelpWindow();
     }
 }

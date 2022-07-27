@@ -8,33 +8,33 @@ public class DialogueAdditionalActions : MonoBehaviour
     [Header("Links to instances")]
     [SerializeField] private TransitionToNextScene transitionToNextScene;
 
-    public void playJumpAnimation()
+    public void PlayJumpAnimation()
     {
         _characterAnimator.Play("jump");
     }
 
-    public void turnOnLevelScene()
+    public void TurnOnLevelScene()
     {
-        hideUI();
-        Screen.lockCursor = true;
-        transitionToNextScene.turnOnLevel();
+        HideUI();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        transitionToNextScene.TurnOnLevel();
     }
 
-    public void finishGameAndExitInMenu()
+    public void FinishGameAndExitInMenu()
     {
         PlayerPrefs.SetInt("EndGame", 1);
-        transitionToNextScene.endGame();
+        transitionToNextScene.EndGame();
     }
 
-    public void hideUI()
+    public void HideUI()
     {
         _skipPhraseButton.SetActive(false);
         _dots.SetActive(false);
     }
 
-    public void turnOnFirstLevel()
+    public void TurnOnFirstLevel()
     {
-        transitionToNextScene.turnOnLevel();
+        transitionToNextScene.TurnOnLevel();
     }
-
 }

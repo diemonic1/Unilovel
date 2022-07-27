@@ -4,9 +4,9 @@ public class TriggerNumberRespawnPoint : MonoBehaviour
 {
     [SerializeField] private int countWallPortal;
 
-    void OnTriggerEnter(Collider touchedObject)
+    private void OnTriggerEnter(Collider touchedObject)
     {
-        if (touchedObject.tag == "Player")
+        if (touchedObject.CompareTag("Player"))
             touchedObject.GetComponent<PlayerSpawnAndRespawn>().PortalCounter = countWallPortal;
     }
 }

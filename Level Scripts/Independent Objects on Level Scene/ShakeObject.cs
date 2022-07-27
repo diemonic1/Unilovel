@@ -17,18 +17,18 @@ public class ShakeObject : MonoBehaviour
         _nextSwayPosition = transform.localPosition + _nextSwayVector;
         _startLocalPosition = transform.localPosition;
 
-        StartCoroutine(loop());
+        StartCoroutine(Loop());
     }
 
-    private IEnumerator loop()
+    private IEnumerator Loop()
     {
         yield return new WaitForSeconds(4f);
 
         _randomRotationStepAxisX = Random.Range(-_rotationAmplitudeAxisX, _rotationAmplitudeAxisX);
         _randomRotationStepAxisY = Random.Range(-_rotationAmplitudeAxisY, _rotationAmplitudeAxisY);
         _randomRotationStepAxisZ = Random.Range(-_rotationAmplitudeAxisZ, _rotationAmplitudeAxisZ);
-        
-        StartCoroutine(loop());
+
+        StartCoroutine(Loop());
     }
 
     private void FixedUpdate()

@@ -18,7 +18,7 @@ public class ActionsOnLevel : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
-            if (_currentLevel == -1) 
+            if (_currentLevel == -1)
                 _currentLevel = levelSceneBuilder.CurrentLevel;
 
             if (_currentLevel == 4)
@@ -31,20 +31,20 @@ public class ActionsOnLevel : MonoBehaviour
                     StartCoroutine(SwitchParticles());
                 }
 
-                iconsAnimations.startChangingIconOnLevel4();
+                iconsAnimations.StartChangingIconOnLevel4();
             }
             else if (_currentLevel == 5)
             {
                 _playerRigidbody.AddForce(new Vector3(0f, 0.7f, 0f), ForceMode.Impulse);
 
-                iconsAnimations.startChangingIconOnLevel5();
+                iconsAnimations.StartChangingIconOnLevel5();
             }
             else if (_currentLevel == 6)
             {
                 _groupOfBlue.SetActive(!_groupOfBlue.activeSelf);
                 _groupOfRed.SetActive(!_groupOfRed.activeSelf);
 
-                iconsAnimations.startChangingIconOnLevel6();
+                iconsAnimations.StartChangingIconOnLevel6();
             }
         }
     }
@@ -59,15 +59,15 @@ public class ActionsOnLevel : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        ParticleSystem[] _currentParticlesGroup;
+        ParticleSystem[] currentParticlesGroup;
 
         if (Physics.gravity.y < 0)
-            _currentParticlesGroup = _particlesGroupFirst;
+            currentParticlesGroup = _particlesGroupFirst;
         else
-            _currentParticlesGroup = _particlesGroupSecond;
+            currentParticlesGroup = _particlesGroupSecond;
 
         for (int i = 0; i < 4; i++)
-            _currentParticlesGroup[i].Play();
+            currentParticlesGroup[i].Play();
 
         _canSwitchParticles = false;
     }

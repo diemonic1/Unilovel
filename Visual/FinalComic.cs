@@ -8,18 +8,19 @@ public class FinalComic : MonoBehaviour
     [Header("Links to instances")]
     [SerializeField] private MainMenu mainMenu;
 
-    public void startComic()
+    public void StartComic()
     {
-        Screen.lockCursor = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         _comicAnimator.Play("comic2");
     }
 
-    public void animationEvent_endOfComic()
+    public void AnimationEvent_endOfComic()
     {
         mainMenu.OpenMenu();
     }
 
-    public void animationEvent_ringSoundPlay()
+    public void AnimationEvent_ringSoundPlay()
     {
         _soundRing.Play();
     }

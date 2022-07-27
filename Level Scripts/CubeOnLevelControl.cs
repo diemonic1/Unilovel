@@ -2,24 +2,24 @@ using UnityEngine;
 
 public class CubeOnLevelControl : MonoBehaviour
 {
-    [SerializeField] private float levelRotationSensitivity, levelRotationSensitivityShift;
+    [SerializeField] private float _levelRotationSensitivity, _levelRotationSensitivityShift;
 
-    private float CurrentlevelRotationSensitivity;
+    private float _currentlevelRotationSensitivity;
 
     [Header("Links to instances")]
     [SerializeField] private PauseMenu pauseMenu;
 
     private void FixedUpdate()
     {
-        if (!pauseMenu.isPause)
+        if (!pauseMenu.IsPause)
         {
-            transform.Rotate(new Vector3(-1, 0, 0), (-Input.GetAxis("Vertical") * CurrentlevelRotationSensitivity), Space.World);
-            transform.Rotate(new Vector3(0, 0, -1), (Input.GetAxis("Horizontal") * CurrentlevelRotationSensitivity), Space.World);
+            transform.Rotate(new Vector3(-1, 0, 0), -Input.GetAxis("Vertical") * _currentlevelRotationSensitivity, Space.World);
+            transform.Rotate(new Vector3(0, 0, -1), Input.GetAxis("Horizontal") * _currentlevelRotationSensitivity, Space.World);
 
             if (Input.GetAxis("Shift") != 0)
-                CurrentlevelRotationSensitivity = levelRotationSensitivityShift;
+                _currentlevelRotationSensitivity = _levelRotationSensitivityShift;
             else
-                CurrentlevelRotationSensitivity = levelRotationSensitivity;
+                _currentlevelRotationSensitivity = _levelRotationSensitivity;
         }
     }
 }

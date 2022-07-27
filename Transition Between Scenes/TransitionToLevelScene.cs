@@ -5,20 +5,20 @@ public class TransitionToLevelScene : TransitionToNextScene
 {
     [SerializeField] private Animator _whiteFadeAnimator;
 
-    protected override void outBlackFade()
+    protected override void OutBlackFade()
     {
         _blackFadeAnimator.Play("blackFadeOut");
-        StartCoroutine(outWhiteFadeDelay());
+        StartCoroutine(OutWhiteFadeDelay());
     }
 
-    private IEnumerator outWhiteFadeDelay()
+    protected override void InWhiteFade()
+    {
+        _whiteFadeAnimator.Play("whiteFadeIn");
+    }
+
+    private IEnumerator OutWhiteFadeDelay()
     {
         yield return new WaitForSeconds(1.6f);
         _whiteFadeAnimator.Play("whiteFadeOut");
-    }
-
-    protected override void inWhiteFade() 
-    {
-        _whiteFadeAnimator.Play("whiteFadeIn");
     }
 }

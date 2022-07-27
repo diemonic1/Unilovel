@@ -10,6 +10,20 @@ public class LocalizedText : MonoBehaviour
     [Header("Links to instances")]
     private LocalizationManager localizationManager;
 
+    protected virtual void UpdateText()
+    {
+        if (gameObject == null)
+            return;
+
+        if (localizationManager == null)
+            localizationManager = GameObject.FindGameObjectWithTag("LocalizationManager").GetComponent<LocalizationManager>();
+
+        if (_currentText == null)
+            _currentText = GetComponent<Text>();
+
+        _currentText.text = localizationManager.GetLocalizedValue(key);
+    }
+
     private void Awake()
     {
         if (localizationManager == null)
@@ -29,19 +43,5 @@ public class LocalizedText : MonoBehaviour
     private void OnDestroy()
     {
         localizationManager.OnLanguageChanged -= UpdateText;
-    }
-
-    virtual protected void UpdateText()
-    {
-        if (gameObject == null) 
-            return;
-
-        if (localizationManager == null)
-            localizationManager = GameObject.FindGameObjectWithTag("LocalizationManager").GetComponent<LocalizationManager>();
-
-        if (_currentText == null)
-            _currentText = GetComponent<Text>();
-
-        _currentText.text = localizationManager.GetLocalizedValue(key);
     }
 }

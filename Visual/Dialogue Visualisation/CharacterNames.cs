@@ -1,5 +1,5 @@
-﻿using UnityEngine.UI;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterNames : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class CharacterNames : MonoBehaviour
 
     [SerializeField] private GameObject _nameObject1, _nameObject2, _nameObject3, _nameQuestionsObject;
 
-    private Text _name1, _name2, _name3, _nameQuestions;
+    private Text _name1, _name2, _name3;
 
     private int _currentDialogue = -10, _thirdDialogueCounter = 0;
 
@@ -18,20 +18,12 @@ public class CharacterNames : MonoBehaviour
     [SerializeField] private LocalizationManager localizationManager;
     [SerializeField] private DialogueSceneBuilder dialogueSceneBuilder;
 
-    private void Start()
-    {
-        _currentDialogue = dialogueSceneBuilder.getCurrentDialogueNumber();
-
-        _name1 = _nameObject1.GetComponent<Text>();
-        _name2 = _nameObject2.GetComponent<Text>();
-        _name3 = _nameObject3.GetComponent<Text>();
-        _nameQuestions = _nameQuestionsObject.GetComponent<Text>();
-    }
-
-    public void showName()
+    public void ShowName()
     {
         if (_currentDialogue != 3)
+        {
             _name1.text = localizationManager.GetLocalizedValue(_names[_currentDialogue]);
+        }
         else
         {
             _name1.text = localizationManager.GetLocalizedValue(_namesForLevel4[0]);
@@ -43,7 +35,7 @@ public class CharacterNames : MonoBehaviour
         {
             _thirdDialogueCounter++;
 
-            if (_currentDialogue == 0) 
+            if (_currentDialogue == 0)
             {
                 _nameQuestionsObject.SetActive(false);
                 _nameAnimator.speed = 1.2f;
@@ -51,20 +43,31 @@ public class CharacterNames : MonoBehaviour
 
             _nameAnimator.Play("openName1");
         }
-        else if (_thirdDialogueCounter == 1) // in the third dialog this opens 3 names
+        else if (_thirdDialogueCounter == 1)
         {
+            // in the third dialog this opens 3 names
             _thirdDialogueCounter++;
             _nameAnimator.Play("openName2");
         }
         else
+        {
             _nameAnimator.Play("openName3");
+        }
     }
 
-    public void hideName()
+    public void HideName()
     {
         _nameObject1.SetActive(false);
         _nameObject2.SetActive(false);
         _nameObject3.SetActive(false);
     }
-}
 
+    private void Start()
+    {
+        _currentDialogue = dialogueSceneBuilder.GetCurrentDialogueNumber();
+
+        _name1 = _nameObject1.GetComponent<Text>();
+        _name2 = _nameObject2.GetComponent<Text>();
+        _name3 = _nameObject3.GetComponent<Text>();
+    }
+}

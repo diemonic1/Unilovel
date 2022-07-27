@@ -4,7 +4,7 @@ public class PortalToFinishLevel : MonoBehaviour
 {
     private void OnTriggerEnter(Collider touchedObject)
     {
-        if (touchedObject.tag == "Player")
-            touchedObject.GetComponent<PlayerSpawnAndRespawn>().finishLevel();
+        if (touchedObject.CompareTag("Player"))
+            touchedObject.GetComponent<PlayerSpawnAndRespawn>().FinishLevel();
     }
 }

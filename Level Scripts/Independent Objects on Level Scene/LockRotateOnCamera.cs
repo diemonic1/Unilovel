@@ -4,7 +4,7 @@ public class LockRotateOnCamera : MonoBehaviour
 {
     private GameObject _camera;
 
-    private void Awake() 
+    private void Awake()
     {
         _camera = GameObject.FindGameObjectWithTag("MainCamera");
     }

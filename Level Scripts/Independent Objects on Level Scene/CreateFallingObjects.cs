@@ -12,10 +12,10 @@ public class CreateFallingObjects : MonoBehaviour
     private void Start()
     {
         _countOfItems = _fallingObjects.Length;
-        StartCoroutine(loop());
+        StartCoroutine(Loop());
     }
 
-    private IEnumerator loop()
+    private IEnumerator Loop()
     {
         float x = Random.Range(-10f, 10f);
         float y = Random.Range(-17f, 5f);
@@ -27,7 +27,7 @@ public class CreateFallingObjects : MonoBehaviour
         while (z > -8 && z < 8)
             z = Random.Range(-10f, 10f);
 
-        Vector3 dropPosition = new Vector3(x, y, z);
+        Vector3 dropPosition = new (x, y, z);
 
         Instantiate(_portal, dropPosition, Quaternion.identity);
 
@@ -38,6 +38,6 @@ public class CreateFallingObjects : MonoBehaviour
         Instantiate(_fallingObjects[selectedItemNumber], dropPosition, Quaternion.identity);
 
         yield return new WaitForSeconds(_delayBeforeSpawn);
-        StartCoroutine(loop());
+        StartCoroutine(Loop());
     }
 }

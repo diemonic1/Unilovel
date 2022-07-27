@@ -6,13 +6,13 @@ public class KillingObjectHereChecker : MonoBehaviour
 
     private void OnTriggerStay(Collider touchedObject)
     {
-        if (touchedObject.tag == "KillingObject")
+        if (touchedObject.CompareTag("KillingObject"))
             IsKillingObjectHere = true;
     }
 
     private void OnTriggerExit(Collider touchedObject)
     {
-        if (touchedObject.tag == "KillingObject")
+        if (touchedObject.CompareTag("KillingObject"))
             IsKillingObjectHere = false;
     }
 }

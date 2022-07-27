@@ -1,34 +1,35 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TransitionToNextScene : MonoBehaviour
 {
-    public bool IsTransitionNow { get; protected set; }
-
     [SerializeField] protected Animator _blackFadeAnimator;
 
     [Header("Links to instances")]
     [SerializeField] private AudioVolumeController audioVolumeController;
 
-    private void Start()
+    public bool IsTransitionNow { get; protected set; }
+
+    // On a separate scene "loader" is the loading animation and the script "loaderScript".
+    // With "numActionLoader" it determines which scene to load.
+    public void StartTransitionOnNextScene()
     {
-        StartCoroutine(StartDelay());
+        switch (PlayerPrefs.GetString("nameOfNextScene"))
+        {
+            case "none":
+                SceneManager.LoadScene("Dialogue");
+                break;
+            case "exitGame":
+                Application.Quit();
+                break;
+            default:
+                SceneManager.LoadScene("loader");
+                break;
+        }
     }
 
-    protected virtual IEnumerator StartDelay()
-    {
-        outBlackFade();
-        IsTransitionNow = true;
-        yield return new WaitForSeconds(2.3f);
-        IsTransitionNow = false;
-    }
-
-    protected virtual void outBlackFade()
-    {
-        _blackFadeAnimator.Play("blackFadeOut");
-    }
-
-    public void newGame()
+    public void StartNewGame()
     {
         PlayerPrefs.SetInt("EndGame", 0);
         PlayerPrefs.SetInt("lvl", 0);
@@ -37,102 +38,104 @@ public class TransitionToNextScene : MonoBehaviour
 
         PlayerPrefs.SetString("nameOfNextScene", "none");
 
-        playAnim_volumeDown();
+        PlayAnim_volumeDown();
     }
 
-    public void continueGame()
+    public void ContinueGame()
     {
         if (PlayerPrefs.GetInt("progress") % 2 == 0)
             PlayerPrefs.SetString("nameOfNextScene", "Dialogue");
         else
             PlayerPrefs.SetString("nameOfNextScene", "level");
 
-        playAnim_volumeDown();
+        PlayAnim_volumeDown();
     }
 
-    public void exitInMenu()
+    public void ExitInMenu()
     {
         PlayerPrefs.SetString("nameOfNextScene", "MainMenu");
 
-        playAnim_volumeDown();
+        PlayAnim_volumeDown();
     }
 
-    public void restartLevel()
+    public void RestartLevel()
     {
         PlayerPrefs.SetString("nameOfNextScene", "level");
 
-        playAnim_volumeDown();
+        PlayAnim_volumeDown();
     }
 
-    public void turnOnLevel()
+    public void TurnOnLevel()
     {
         PlayerPrefs.SetInt("lvl", PlayerPrefs.GetInt("lvl") + 1);
         PlayerPrefs.SetInt("progress", PlayerPrefs.GetInt("progress") + 1);
 
         PlayerPrefs.SetString("nameOfNextScene", "level");
 
-        playAnim_volumeDown();
+        PlayAnim_volumeDown();
     }
 
-    public void turnOnDialogue()
+    public void TurnOnDialogue()
     {
         PlayerPrefs.SetInt("dial", PlayerPrefs.GetInt("lvl"));
         PlayerPrefs.SetInt("progress", PlayerPrefs.GetInt("progress") + 1);
 
         PlayerPrefs.SetString("nameOfNextScene", "Dialogue");
 
-        StartCoroutine(turnOnDialogueDelay());
+        StartCoroutine(TurnOnDialogueDelay());
     }
 
-    private IEnumerator turnOnDialogueDelay()
-    {
-        yield return new WaitForSeconds(0.5f);
-        inWhiteFade();
-
-        yield return new WaitForSeconds(1.6f);
-        playAnim_volumeDown();
-    }
-
-    public void endGame()
+    public void EndGame()
     {
         PlayerPrefs.SetInt("EndComics", 1);
         PlayerPrefs.SetString("nameOfNextScene", "MainMenu");
 
-        playAnim_volumeDown();
+        PlayAnim_volumeDown();
     }
 
-    public void exitFromGame()
+    public void ExitFromGame()
     {
         PlayerPrefs.SetString("nameOfNextScene", "exitGame");
 
-        playAnim_volumeDown();
+        PlayAnim_volumeDown();
     }
 
-    private void playAnim_volumeDown()
+    protected virtual IEnumerator StartDelay()
+    {
+        OutBlackFade();
+        IsTransitionNow = true;
+        yield return new WaitForSeconds(2.3f);
+        IsTransitionNow = false;
+    }
+
+    protected virtual void OutBlackFade()
+    {
+        _blackFadeAnimator.Play("blackFadeOut");
+    }
+
+    protected virtual void InWhiteFade()
+    {
+    }
+
+    private void Start()
+    {
+        StartCoroutine(StartDelay());
+    }
+
+    private IEnumerator TurnOnDialogueDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        InWhiteFade();
+
+        yield return new WaitForSeconds(1.6f);
+        PlayAnim_volumeDown();
+    }
+
+    private void PlayAnim_volumeDown()
     {
         IsTransitionNow = true;
 
-        audioVolumeController.startFadingVolume();
+        audioVolumeController.StartFadingVolume();
         _blackFadeAnimator.Play("blackFadeIn");
-    }
-
-    protected virtual void inWhiteFade() { }
-
-    // On a separate scene "loader" is the loading animation and the script "loaderScript". 
-    // With "numActionLoader" it determines which scene to load.
-    public void startTransitionOnNextScene()
-    {
-        switch (PlayerPrefs.GetString("nameOfNextScene"))
-        {
-            case "none":
-                Application.LoadLevel("Dialogue");
-                break;
-            case "exitGame":
-                Application.Quit();
-                break;
-            default:
-                Application.LoadLevel("loader");
-                break;
-        }
     }
 }

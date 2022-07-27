@@ -24,7 +24,7 @@ public class FallingItem : MonoBehaviour
         _currentTimeOfLife += Time.deltaTime;
 
         _rigidbody.velocity += new Vector3(0, -1 * Mathf.Sign(Physics.gravity.y) * 0.025f, 0);
-        
+
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x + _randomStepAxisX, transform.localEulerAngles.y + _randomStepAxisY, transform.localEulerAngles.z + _randomStepAxisZ);
     }
 

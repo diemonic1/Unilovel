@@ -4,7 +4,7 @@ public class MainMenuUIBuilder : MonoBehaviour
 {
     [SerializeField] private GameObject _newGameMenuButton, _continueButton, _exitMenuButton, _loadLevelButton;
 
-    public void buildMenuUI() 
+    public void BuildMenuUI()
     {
         if (PlayerPrefs.GetInt("progress") == 0)
         {

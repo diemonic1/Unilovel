@@ -9,41 +9,43 @@ public class AudioVolumeController : MonoBehaviour
 
     private bool _controlVolumeBySlider;
 
+    public void StartFadingVolume()
+    {
+        _controlVolumeBySlider = false;
+        StartCoroutine(FadingVolume(Mathf.Round((PlayerPrefs.GetInt("masterVolumePrefs") - 100) / 2)));
+    }
+
     private void Start()
     {
         _masterMixerGroup.audioMixer.SetFloat("MasterVolume", -80);
 
         if (PlayerPrefs.GetInt("masterVolumePrefs") != 0)
-            StartCoroutine(risingVolume(-80));
+            StartCoroutine(RisingVolume(-80));
     }
 
-    private IEnumerator risingVolume(float _currentVolume)
+    private IEnumerator RisingVolume(float currentVolume)
     {
-        if (_currentVolume < Mathf.Round((PlayerPrefs.GetInt("masterVolumePrefs") - 100) / 2))
+        if (currentVolume < Mathf.Round((PlayerPrefs.GetInt("masterVolumePrefs") - 100) / 2))
         {
-            _currentVolume += _stepUpward;
-            _masterMixerGroup.audioMixer.SetFloat("MasterVolume", _currentVolume);
+            currentVolume += _stepUpward;
+            _masterMixerGroup.audioMixer.SetFloat("MasterVolume", currentVolume);
             yield return new WaitForSeconds(_delayUpward);
-            StartCoroutine(risingVolume(_currentVolume));
+            StartCoroutine(RisingVolume(currentVolume));
         }
         else
-            _controlVolumeBySlider = true;
-    }
-
-    public void startFadingVolume()
-    {
-        _controlVolumeBySlider = false;
-        StartCoroutine(fadingVolume(Mathf.Round((PlayerPrefs.GetInt("masterVolumePrefs") - 100) / 2)));
-    }
-
-    private IEnumerator fadingVolume(float _currentVolume)
-    {
-        if (_currentVolume > -80)
         {
-            _currentVolume -= _stepDownward;
-            _masterMixerGroup.audioMixer.SetFloat("MasterVolume", _currentVolume);
+            _controlVolumeBySlider = true;
+        }
+    }
+
+    private IEnumerator FadingVolume(float currentVolume)
+    {
+        if (currentVolume > -80)
+        {
+            currentVolume -= _stepDownward;
+            _masterMixerGroup.audioMixer.SetFloat("MasterVolume", currentVolume);
             yield return new WaitForSeconds(_delayDownward);
-            StartCoroutine(fadingVolume(_currentVolume));
+            StartCoroutine(FadingVolume(currentVolume));
         }
     }
 

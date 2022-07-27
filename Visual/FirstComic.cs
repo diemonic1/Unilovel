@@ -10,20 +10,21 @@ public class FirstComic : MonoBehaviour
     [SerializeField] private LocalizationManager localizationManager;
     [SerializeField] private DialogueAdditionalActions dialogueAdditionalActions;
 
-    public void startComic()
+    public void StartComic()
     {
         _comicText1.text = localizationManager.GetLocalizedValue("comic_1");
         _comicText2.text = localizationManager.GetLocalizedValue("comic_2");
         _comicText3.text = localizationManager.GetLocalizedValue("comic_3");
 
-        dialogueAdditionalActions.hideUI();
-        Screen.lockCursor = true;
+        dialogueAdditionalActions.HideUI();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         _comicAnimator.Play("comic1");
     }
 
-    public void animationEvent_comicDone()
+    public void AnimationEvent_comicDone()
     {
-        dialogueAdditionalActions.turnOnFirstLevel();
+        dialogueAdditionalActions.TurnOnFirstLevel();
     }
 }

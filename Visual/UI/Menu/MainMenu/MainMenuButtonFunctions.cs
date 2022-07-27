@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class MainMenuButtonFunctions : MonoBehaviour
+public class MainMenuButtonFunctions : MonoBehaviour, IMenuButtonsFunctions
 {
-    [SerializeField] private AudioSource _ClickSound;
+    [SerializeField] private AudioSource _clickSound;
     [SerializeField] private GameObject _menu, _exitMenu, _newGameMenu, _loadLevelMenu;
 
     [Header("Links to instances")]
@@ -10,11 +10,11 @@ public class MainMenuButtonFunctions : MonoBehaviour
     [SerializeField] private TransitionToNextScene transitionToNextScene;
     [SerializeField] private MainMenu mainMenu;
 
-    public void changeLanguage()
+    public void ÑhangeLanguage()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
 
-        switch (mainMenu.getdropdownMenuLanguageValue())
+        switch (mainMenu.GetdropdownMenuLanguageValue())
         {
             case 0:
                 PlayerPrefs.SetString("Language", "en_US");
@@ -24,69 +24,69 @@ public class MainMenuButtonFunctions : MonoBehaviour
                 break;
         }
 
-        if (localizationManager != null) 
+        if (localizationManager != null)
             localizationManager.CurrentLanguage = PlayerPrefs.GetString("Language");
     }
 
-    public void loadLevel(int x)
+    public void LoadLevel(int x)
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         mainMenu.CloseMenu();
 
         PlayerPrefs.SetInt("dial", x - 1);
         PlayerPrefs.SetInt("lvl", x - 1);
         PlayerPrefs.SetInt("progress", (x - 1) * 2);
 
-        transitionToNextScene.continueGame();
+        transitionToNextScene.ContinueGame();
     }
 
-    public void newGame()
+    public void StartNewGame()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         mainMenu.CloseMenu();
-        transitionToNextScene.newGame();
+        transitionToNextScene.StartNewGame();
     }
 
-    public void continueGame()
+    public void ContinueGame()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         mainMenu.CloseMenu();
-        transitionToNextScene.continueGame();
+        transitionToNextScene.ContinueGame();
     }
 
-    public void exit()
+    public void ExitFromGame()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         mainMenu.CloseMenu();
-        transitionToNextScene.exitFromGame();
+        transitionToNextScene.ExitFromGame();
     }
 
-    public void buttonBack()
+    public void BackButton()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _menu.SetActive(true);
         _exitMenu.SetActive(false);
         _newGameMenu.SetActive(false);
         _loadLevelMenu.SetActive(false);
     }
 
-    public void openNewGameMenu()
+    public void OpenNewGameMenu()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _menu.SetActive(false);
         _newGameMenu.SetActive(true);
     }
 
-    public void openLoadLevelMenu()
+    public void OpenLoadLevelMenu()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _menu.SetActive(false);
         _loadLevelMenu.SetActive(true);
     }
 
-    public void openExitMenu()
+    public void OpenExitFromGameMenu()
     {
-        _ClickSound.Play();
+        _clickSound.Play();
         _menu.SetActive(false);
         _exitMenu.SetActive(true);
     }

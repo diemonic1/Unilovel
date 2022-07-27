@@ -5,8 +5,8 @@ public class LocalizationManagerForMenu : LocalizationManager
     [Header("Links to instances")]
     [SerializeField] private MainMenu mainMenu;
 
-    protected override void setLanguegeInMenu(string languageName) 
+    protected override void SetLanguegeInMenu(string languageName)
     {
-        mainMenu.dropDownMenuSetLanguage(languageName);
+        mainMenu.DropDownMenuSetLanguage(languageName);
     }
 }

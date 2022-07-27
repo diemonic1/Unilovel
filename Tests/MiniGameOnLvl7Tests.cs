@@ -1,12 +1,10 @@
-using System.Collections;
+using MiniGameOnLvl7;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
-using MiniGameOnLvl7;
 
-public class MiniGameLvl7Tests
+public class MiniGameOnLvl7Tests
 {
-    private int _countOfRepetitions = 100;
+    private readonly int _countOfRepetitions = 100;
 
     private GameObject _localizationManager;
     private GameObject _scriptsLvl7;
@@ -34,7 +32,7 @@ public class MiniGameLvl7Tests
     }
 
     [Test]
-    public void compareNewTargetWithNotExistTarget()
+    public void CompareNewTargetWithNotExistTarget()
     {
         bool isTestFailed = false;
 
@@ -42,7 +40,7 @@ public class MiniGameLvl7Tests
         {
             for (int j = 0; j < _countOfRepetitions; j++)
             {
-                taskCreator.createNewTask(i);
+                taskCreator.CreateNewTask(i);
 
                 if (taskCreator.CurrentTarget == -1 && !taskCreator.AnyColorMode)
                     isTestFailed = true;
@@ -53,7 +51,7 @@ public class MiniGameLvl7Tests
     }
 
     [Test]
-    public void compareNewTargetWithCurrentTarget()
+    public void CompareNewTargetWithCurrentTarget()
     {
         bool isTestFailed = false;
 
@@ -61,7 +59,7 @@ public class MiniGameLvl7Tests
         {
             for (int j = 0; j < _countOfRepetitions; j++)
             {
-                taskCreator.createNewTask(i);
+                taskCreator.CreateNewTask(i);
 
                 if (taskCreator.CurrentTarget == i && !taskCreator.AnyColorMode)
                     isTestFailed = true;
@@ -72,7 +70,7 @@ public class MiniGameLvl7Tests
     }
 
     [Test]
-    public void compareNewTargetWithImpossibleTarget()
+    public void CompareNewTargetWithImpossibleTarget()
     {
         bool isTestFailed = false;
 
@@ -80,7 +78,7 @@ public class MiniGameLvl7Tests
         {
             for (int j = 0; j < _countOfRepetitions; j++)
             {
-                taskCreator.createNewTask(i);
+                taskCreator.CreateNewTask(i);
 
                 if (taskCreator.CurrentTarget == 5 - i && !taskCreator.AnyColorMode)
                     isTestFailed = true;
@@ -91,17 +89,16 @@ public class MiniGameLvl7Tests
     }
 
     [Test]
-    public void solvingTaskAndWin()
+    public void SolvingTaskAndWin()
     {
         for (int i = 0; i < _countOfRepetitions; i++)
         {
-            miniGameOnLvl7Logic.triggerActivate(0);
-            miniGameOnLvl7Logic.triggerActivate(0);
-
-            int currentTarget = 0;
-
+            miniGameOnLvl7Logic.TriggerActivate(0);
+            miniGameOnLvl7Logic.TriggerActivate(0);
             for (int j = 0; j < 16; j++)
             {
+                int currentTarget;
+
                 if (taskCreator.NotMode)
                     currentTarget = taskCreator.CurrentTarget + 1;
                 else if (taskCreator.AnyColorMode)
@@ -109,22 +106,22 @@ public class MiniGameLvl7Tests
                 else
                     currentTarget = taskCreator.CurrentTarget;
 
-                miniGameOnLvl7Logic.triggerActivate(currentTarget);
+                miniGameOnLvl7Logic.TriggerActivate(currentTarget);
             }
 
             Assert.True(miniGameOnLvl7Logic.IsWin);
 
-            destroyObjects();
+            DestroyObjects();
         }
     }
 
     [Test]
-    public void failingTask()
+    public void FailingTask()
     {
         for (int i = 0; i < _countOfRepetitions; i++)
         {
-            miniGameOnLvl7Logic.triggerActivate(0);
-            miniGameOnLvl7Logic.triggerActivate(0);
+            miniGameOnLvl7Logic.TriggerActivate(0);
+            miniGameOnLvl7Logic.TriggerActivate(0);
 
             Assert.True(miniGameOnLvl7Logic.IsGameRunning);
 
@@ -140,7 +137,7 @@ public class MiniGameLvl7Tests
             else
                 wrongTarget = oldTarget + 1;
 
-            miniGameOnLvl7Logic.triggerActivate(wrongTarget);
+            miniGameOnLvl7Logic.TriggerActivate(wrongTarget);
 
             bool isTestFailed = false;
 
@@ -149,11 +146,11 @@ public class MiniGameLvl7Tests
 
             Assert.False(isTestFailed);
 
-            destroyObjects();
+            DestroyObjects();
         }
     }
 
-    private void destroyObjects()
+    private void DestroyObjects()
     {
         Object.Destroy(_localizationManager);
         Object.Destroy(_scriptsLvl7);

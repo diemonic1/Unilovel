@@ -17,18 +17,18 @@ public class RotateCameraAroundTarget : MonoBehaviour
 
     private void Update()
     {
-        if (!pauseMenu.isPause)
+        if (!pauseMenu.IsPause)
         {
-            updateZoom();
+            UpdateZoom();
 
-            rotateWithMouseButton();
+            RotateWithMouseButton();
 
             transform.localEulerAngles = new Vector3(-_currentRotationAxisY, _currentRotationAxisX, 0);
-            transform.position = transform.localRotation * _offset + _target;
+            transform.position = (transform.localRotation * _offset) + _target;
         }
     }
 
-    private void updateZoom()
+    private void UpdateZoom()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && _currentZoom < -_minimumZoom)
             _currentZoom = _offset.z + _sensitivityZoom;
@@ -50,12 +50,12 @@ public class RotateCameraAroundTarget : MonoBehaviour
         _offset.z = Mathf.Clamp(_offset.z, -Mathf.Abs(_maximumZoom), -Mathf.Abs(_minimumZoom));
     }
 
-    private void rotateWithMouseButton()
+    private void RotateWithMouseButton()
     {
         if (Input.GetButton("Fire1"))
         {
             _currentRotationAxisY += Input.GetAxis("Mouse Y") * _sensitivityRotation;
-            _currentRotationAxisX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * _sensitivityRotation;
+            _currentRotationAxisX = transform.localEulerAngles.y + (Input.GetAxis("Mouse X") * _sensitivityRotation);
         }
 
         _currentRotationAxisY = Mathf.Clamp(_currentRotationAxisY, -_maxRotationAxisY, _maxRotationAxisY);

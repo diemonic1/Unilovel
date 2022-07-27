@@ -7,22 +7,22 @@ public class IconsAnimations : MonoBehaviour
     [SerializeField] private GameObject _iconOnLevel4, _iconOnLevel5;
     [SerializeField] private CanvasGroup _iconOnLevel6First, _iconOnLevel6Second;
 
-    public void startChangingIconOnLevel4()
+    public void StartChangingIconOnLevel4()
     {
-        StartCoroutine(changeIconOnLevel4());
+        StartCoroutine(ChangeIconOnLevel4());
     }
 
-    public void startChangingIconOnLevel5()
+    public void StartChangingIconOnLevel5()
     {
-        StartCoroutine(changeIconOnLevel5());
+        StartCoroutine(ChangeIconOnLevel5());
     }
 
-    public void startChangingIconOnLevel6()
+    public void StartChangingIconOnLevel6()
     {
-        StartCoroutine(changeIconOnLevel6());
+        StartCoroutine(ChangeIconOnLevel6());
     }
 
-    private IEnumerator changeIconOnLevel4()
+    private IEnumerator ChangeIconOnLevel4()
     {
         for (int i = 0; i < 60; i++)
         {
@@ -31,13 +31,14 @@ public class IconsAnimations : MonoBehaviour
         }
     }
 
-    private IEnumerator changeIconOnLevel5()
+    private IEnumerator ChangeIconOnLevel5()
     {
         for (int i = 0; i < _amplitude; i++)
         {
             _iconOnLevel5.transform.localPosition = new Vector3(_iconOnLevel5.transform.localPosition.x, _iconOnLevel5.transform.localPosition.y + _stepOfMotion, _iconOnLevel5.transform.localPosition.z);
             yield return new WaitForSeconds(0.01f);
         }
+
         for (int i = 0; i < _amplitude; i++)
         {
             _iconOnLevel5.transform.localPosition = new Vector3(_iconOnLevel5.transform.localPosition.x, _iconOnLevel5.transform.localPosition.y - _stepOfMotion, _iconOnLevel5.transform.localPosition.z);
@@ -47,20 +48,18 @@ public class IconsAnimations : MonoBehaviour
         _iconOnLevel5.transform.localPosition = new Vector3(_iconOnLevel5.transform.localPosition.x, 0, _iconOnLevel5.transform.localPosition.z);
     }
 
-    private IEnumerator changeIconOnLevel6()
+    private IEnumerator ChangeIconOnLevel6()
     {
         for (int i = 0; i < 24; i++)
         {
-            _iconOnLevel6First.alpha = _iconOnLevel6First.alpha + 0.025f;
-            _iconOnLevel6Second.alpha = _iconOnLevel6Second.alpha - 0.025f;
+            _iconOnLevel6First.alpha += 0.025f;
+            _iconOnLevel6Second.alpha -= 0.025f;
             yield return new WaitForSeconds(0);
         }
 
         _iconOnLevel6First.alpha = 1;
         _iconOnLevel6Second.alpha = 0.4f;
 
-        CanvasGroup substitute = _iconOnLevel6First;
-        _iconOnLevel6First = _iconOnLevel6Second;
-        _iconOnLevel6Second = substitute;
+        (_iconOnLevel6Second, _iconOnLevel6First) = (_iconOnLevel6First, _iconOnLevel6Second);
     }
 }
