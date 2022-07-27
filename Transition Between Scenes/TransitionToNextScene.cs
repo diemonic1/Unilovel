@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class TransitionToNextScene : MonoBehaviour
 {
-    [SerializeField] protected Animator _blackFadeAnimator;
+    [SerializeField] private Animator _blackFadeAnimator;
 
     [Header("Links to instances")]
     [SerializeField] private AudioVolumeController audioVolumeController;
@@ -102,19 +102,25 @@ public class TransitionToNextScene : MonoBehaviour
 
     protected virtual IEnumerator StartDelay()
     {
-        OutBlackFade();
         IsTransitionNow = true;
+        OutBlackFade();
         yield return new WaitForSeconds(2.3f);
         IsTransitionNow = false;
     }
 
-    protected virtual void OutBlackFade()
+    protected virtual void StartAnotherFadeAnimations()
     {
-        _blackFadeAnimator.Play("blackFadeOut");
     }
 
     protected virtual void InWhiteFade()
     {
+    }
+
+    protected void OutBlackFade()
+    {
+        _blackFadeAnimator.Play("blackFadeOut");
+
+        StartAnotherFadeAnimations();
     }
 
     private void Start()

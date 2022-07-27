@@ -4,14 +4,20 @@ using UnityEngine.UI;
 
 public abstract class BackgroundAnimation : MonoBehaviour
 {
-    [SerializeField] protected Image[] _backgroundSprites;
-
-    protected float _xAxisParallax, _yAxisParallax, _mainClamp1, _mainClamp2, _mainClamp3;
     private readonly float _parallaxRatio = 10;
+
+    [SerializeField] private Image[] _backgroundSprites;
+
+    private float _xAxisParallax, _yAxisParallax, _mainClamp1, _mainClamp2, _mainClamp3;
     private float _randomStep1, _randomStep2, _randomStep3;
 
-    protected virtual void FixedUpdate()
+    protected virtual void UpdateBackground(Image[] backgroundSprites, float xAxisParallax, float yAxisParallax, float mainClamp1, float mainClamp2, float mainClamp3)
     {
+    }
+
+    private void FixedUpdate()
+    {
+        UpdateBackground(_backgroundSprites, _xAxisParallax, _yAxisParallax, _mainClamp1, _mainClamp2, _mainClamp3);
     }
 
     private void Start()

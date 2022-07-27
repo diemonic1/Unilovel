@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class PlayerSpawnAndRespawn : MonoBehaviour
 {
-    public int PortalCounter;
-
     [SerializeField] private Transform _playerTransform;
     [SerializeField] private Rigidbody _playerRigidbody;
 
@@ -22,6 +20,12 @@ public class PlayerSpawnAndRespawn : MonoBehaviour
     [SerializeField] private LevelSceneBuilder levelSceneBuilder;
     [SerializeField] private TransitionToNextScene transitionToNextScene;
     [SerializeField] private KillingObjectHereChecker[] killingObjectHereCheckers;
+
+    public void UpdatePlayerSpawnPoint(int numberOfNewSpawnPoint)
+    {
+        if (levelSceneBuilder.CurrentLevel == 6)
+            _playerSpawnPoints[levelSceneBuilder.CurrentLevel - 1] = _playerSpawnPointsOnLevel6[numberOfNewSpawnPoint];
+    }
 
     public void RespawnPlayer()
     {
@@ -88,10 +92,6 @@ public class PlayerSpawnAndRespawn : MonoBehaviour
             }
 
             return _playerSpawnPointsOnLevel3[0].position;
-        }
-        else if (levelSceneBuilder.CurrentLevel == 6)
-        {
-            return _playerSpawnPointsOnLevel6[PortalCounter].position;
         }
 
         return _playerSpawnPoints[levelSceneBuilder.CurrentLevel - 1].position;

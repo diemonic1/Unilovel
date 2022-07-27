@@ -10,55 +10,50 @@ public class PauseMenuForLevelButtonsFunctions : PauseMenuButtonsFunctions
 
     public override void ExitFromGame()
     {
-        _clickSound.Play();
         _helpWindow.SetActive(false);
-        pauseMenu.TurnPause();
-        transitionToNextScene.ExitFromGame();
+
+        base.ExitFromGame();
     }
 
     public override void BackButton()
     {
-        _clickSound.Play();
-        _menu.SetActive(true);
-        _exitMenu1.SetActive(false);
-        _exitMenu2.SetActive(false);
-
         _reloadMenu.SetActive(false);
         _skipMenu1.SetActive(false);
         _skipMenu2.SetActive(false);
+
+        base.BackButton();
     }
 
     public void ToggleHelpWindowVisibility()
     {
-        _clickSound.Play();
+        PlayClickSound();
         _helpWindow.SetActive(!_helpWindow.activeSelf);
     }
 
     public void OpenReloadLevelMenu()
     {
-        _clickSound.Play();
-        _menu.SetActive(false);
+        PlayClickSound();
+        SetMenuActivity(false);
         _reloadMenu.SetActive(true);
     }
 
-    public void ReloadLevel()
+    public override void ReloadLevel()
     {
-        _clickSound.Play();
         _helpWindow.SetActive(false);
-        pauseMenu.TurnPause();
-        transitionToNextScene.RestartLevel();
+
+        base.ReloadLevel();
     }
 
     public void OpenSkipLevelMenu()
     {
-        _clickSound.Play();
-        _menu.SetActive(false);
+        PlayClickSound();
+        SetMenuActivity(false);
         _skipMenu1.SetActive(true);
     }
 
     public void OpenSkipLevelMenu2()
     {
-        _clickSound.Play();
+        PlayClickSound();
 
         if (PlayerPrefs.GetInt("lvl") != 1)
         {
@@ -71,11 +66,9 @@ public class PauseMenuForLevelButtonsFunctions : PauseMenuButtonsFunctions
         }
     }
 
-    public void SkipLevel()
+    public override void SkipLevel()
     {
-        _clickSound.Play();
         _helpWindow.SetActive(false);
-        pauseMenu.TurnPause();
         playerSpawnAndRespawn.FinishLevel();
     }
 }

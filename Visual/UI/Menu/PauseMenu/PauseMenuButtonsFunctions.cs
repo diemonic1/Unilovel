@@ -1,30 +1,30 @@
 using UnityEngine;
 
-public abstract class PauseMenuButtonsFunctions : MonoBehaviour, IMenuButtonsFunctions
+public class PauseMenuButtonsFunctions : MonoBehaviour, IMenuButtonsFunctions
 {
-    [SerializeField] protected AudioSource _clickSound;
-    [SerializeField] protected GameObject _menu, _exitMenu1, _exitMenu2;
+    [SerializeField] private GameObject _menu, _exitMenu1, _exitMenu2;
+    [SerializeField] private AudioSource _clickSound;
 
     [Header("Links to instances")]
-    [SerializeField] protected TransitionToNextScene transitionToNextScene;
-    [SerializeField] protected PauseMenu pauseMenu;
+    [SerializeField] private TransitionToNextScene transitionToNextScene;
+    [SerializeField] private PauseMenu pauseMenu;
 
     public void ContinueGame()
     {
-        _clickSound.Play();
+        PlayClickSound();
         pauseMenu.TurnPause();
     }
 
     public void OpenExitInMainMenuMenu()
     {
-        _clickSound.Play();
-        _menu.SetActive(false);
+        PlayClickSound();
+        SetMenuActivity(false);
         _exitMenu1.SetActive(true);
     }
 
     public void ExitInMainMenu()
     {
-        _clickSound.Play();
+        PlayClickSound();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         pauseMenu.TurnPause();
@@ -33,16 +33,51 @@ public abstract class PauseMenuButtonsFunctions : MonoBehaviour, IMenuButtonsFun
 
     public void OpenExitFromGameMenu()
     {
-        _clickSound.Play();
-        _menu.SetActive(false);
+        PlayClickSound();
+        SetMenuActivity(false);
         _exitMenu2.SetActive(true);
     }
 
     public virtual void ExitFromGame()
     {
+        PlayClickSound();
+        pauseMenu.TurnPause();
+        transitionToNextScene.ExitFromGame();
     }
 
     public virtual void BackButton()
     {
+        PlayClickSound();
+        SetMenuActivity(true);
+        TurnOffAllExitMenu();
+    }
+
+    public virtual void ReloadLevel()
+    {
+        PlayClickSound();
+        pauseMenu.TurnPause();
+        transitionToNextScene.RestartLevel();
+    }
+
+    public virtual void SkipLevel()
+    {
+        PlayClickSound();
+        pauseMenu.TurnPause();
+    }
+
+    protected void PlayClickSound()
+    {
+        _clickSound.Play();
+    }
+
+    protected void SetMenuActivity(bool parametr)
+    {
+        _menu.SetActive(parametr);
+    }
+
+    protected void TurnOffAllExitMenu()
+    {
+        _exitMenu1.SetActive(false);
+        _exitMenu2.SetActive(false);
     }
 }
